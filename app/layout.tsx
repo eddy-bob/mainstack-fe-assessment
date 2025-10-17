@@ -11,8 +11,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Revenue Dashboard",
-  description: "Financial metrics and transaction management",
+  title: "Mainstack Dashboard",
+  description: "Mainstack assessment",
   generator: "v0.app",
 }
 
@@ -26,9 +26,9 @@ export default function RootLayout({
       <body className={`font-sans antialiased`}>
         <QueryProvider>
           <Sidebar />
-          <div className="flex flex-col ml-16">
+          <div className="flex flex-col ml-2">
             <Header />
-            {children}
+           <div className="px-18"> {children}</div>
           </div>
         </QueryProvider>
         <Analytics />

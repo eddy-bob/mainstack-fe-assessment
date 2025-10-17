@@ -12,7 +12,7 @@ export function Sidebar() {
 
   return (
     <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40">
-      <div className="bg-white rounded-2xl shadow-lg p-4 flex flex-col gap-4">
+      <div className="bg-white rounded-[22px] shadow-lg p-[10px] flex flex-col gap-4">
         {sidebarItems.map((item) => {
           const Icon = item.icon
           return (

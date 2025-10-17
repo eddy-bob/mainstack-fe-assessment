@@ -92,7 +92,7 @@ export function RevenueChart() {
 
   return (
     <div className="relative">
-      <div className="h-[300px] w-full">
+      <div className="h-[200px] w-full">
         <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full" preserveAspectRatio="none">
           <g transform={`translate(${padding.left}, ${padding.top})`}>
             {/* Chart line with animation */}

@@ -10,7 +10,7 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, className, showInfo = true }: MetricCardProps) {
   return (
-    <div className={cn("flex items-start justify-between gap-4", className)}>
+    <div className={cn("flex items-start justify-between", className)}>
       <div className="flex flex-col gap-1">
         <span className="text-sm font-normal text-gray-600">{label}</span>
         <div className="text-2xl font-bold leading-none tracking-tight">

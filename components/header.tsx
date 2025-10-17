@@ -26,7 +26,8 @@ export function Header({ onAppsClick }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-4 z-50 bg-white rounded-2xl shadow-md mx-6 md:mx-8">
+     <div className="bg-white sticky top-0 z-40  pt-3 mx-2">
+      <header className=" bg-white rounded-[40px] shadow-md sticky top-3  ">
         <div className="px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
@@ -68,7 +69,7 @@ export function Header({ onAppsClick }: HeaderProps) {
               <Zap className="w-4 h-4" />
               Apps
               {isAppsActive && (
-                <span className="text-xs px-2 py-0.5 rounded-full bg-background/20 ml-1">Link in Bio</span>
+             <span className="text-xs px-2 py-0.5 rounded-full bg-background/20 ml-1"> Link in Bio</span>
               )}
             </Button>
           </nav>
@@ -101,6 +102,7 @@ export function Header({ onAppsClick }: HeaderProps) {
           </div>
         </div>
       </header>
+     </div>
 
       <HamburgerMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>
