@@ -5,7 +5,7 @@ import {
   getTransactionStatusColor,
 } from "@/lib/api";
 import { fetchTransactions } from "@/lib/api";
-
+import { Transaction } from "@/types";
 // Mock the fetchTransactions function
 jest.mock("@/lib/api", () => ({
   ...jest.requireActual("@/lib/api"),
@@ -86,7 +86,9 @@ describe("API Utility Functions", () => {
         },
       ];
 
-      mockFetchTransactions.mockResolvedValueOnce(mockTransactions);
+      mockFetchTransactions.mockResolvedValueOnce(
+        mockTransactions as Transaction[]
+      );
 
       const result = await fetchChartData();
 
@@ -114,7 +116,9 @@ describe("API Utility Functions", () => {
         },
       ];
 
-      mockFetchTransactions.mockResolvedValueOnce(mockTransactions);
+      mockFetchTransactions.mockResolvedValueOnce(
+        mockTransactions as Transaction[]
+      );
 
       const result = await fetchChartData();
 
@@ -149,7 +153,9 @@ describe("API Utility Functions", () => {
         },
       ];
 
-      mockFetchTransactions.mockResolvedValueOnce(mockTransactions);
+      mockFetchTransactions.mockResolvedValueOnce(
+        mockTransactions as Transaction[]
+      );
 
       const result = await fetchChartData();
 
