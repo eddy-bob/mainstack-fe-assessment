@@ -64,7 +64,7 @@ src/
 
    ```bash
    git clone <repository-url>
-   cd v0-react-typescript-app
+   cd mainstack-fe-assessment
    ```
 
 2. **Install dependencies**
@@ -169,23 +169,6 @@ API endpoints are centralized in the `lib/api.ts` file with proper error handlin
 pnpm build
 ```
 
-The build output will be in the `dist/` directory, ready for deployment to any static hosting service.
-
-### Deployment Options
-
-- **Vercel**: Zero-config deployment
-- **Netlify**: Static site hosting
-- **GitHub Pages**: Free hosting for public repositories
-- **AWS S3**: Scalable cloud hosting
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -197,16 +180,5 @@ If you encounter any issues or have questions:
 1. Check the existing issues in the repository
 2. Create a new issue with detailed information
 3. Include steps to reproduce any bugs
-
-## 🔄 Recent Updates
-
-- ✅ Migrated from Next.js to pure React with Vite
-- ✅ Implemented comprehensive test suite
-- ✅ Added advanced transaction filtering
-- ✅ Enhanced calendar component with year navigation
-- ✅ Fixed styling issues and improved responsive design
-- ✅ Centralized API service architecture
-
----
 
 Built with ❤️ using React, TypeScript, and modern web technologies.
