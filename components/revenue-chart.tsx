@@ -45,7 +45,7 @@ export function RevenueChart() {
 
   const width = 800
   const height = 300
-  const padding = { top: 20, right: 20, bottom: 40, left: 50 }
+  const padding = { top: 20, right: 0, bottom: 40, left: 0 }
   const chartWidth = width - padding.left - padding.right
   const chartHeight = height - padding.top - padding.bottom
 
@@ -91,8 +91,8 @@ export function RevenueChart() {
   })
 
   return (
-    <div className="relative">
-      <div className="h-[200px] w-full">
+    <div className="relative w-full">
+      <div className="h-[200px] w-full ">
         <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full" preserveAspectRatio="none">
           <g transform={`translate(${padding.left}, ${padding.top})`}>
             {/* Chart line with animation */}
@@ -100,7 +100,7 @@ export function RevenueChart() {
               d={animatedPathData}
               fill="none"
               stroke="#E67E50"
-              strokeWidth="2.5"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
@@ -110,28 +110,30 @@ export function RevenueChart() {
               }}
             />
 
-            {/* Date labels */}
-            <text
-              x="0"
-              y={chartHeight + 30}
-              fill="#999"
-              fontSize="13"
-              fontFamily="system-ui, -apple-system, sans-serif"
-            >
-              {firstDate}
-            </text>
-            <text
-              x={chartWidth}
-              y={chartHeight + 30}
-              fill="#999"
-              fontSize="13"
-              fontFamily="system-ui, -apple-system, sans-serif"
-              textAnchor="end"
-            >
-              {lastDate}
-            </text>
+           
           </g>
         </svg>
+           <div className="flex w-full align-center items-center justify-center">
+                  <span className="rounded-full h-1 w-1 bg-gray-300"></span>
+                  <span className="w-full border-b"></span>
+                  <span className="rounded-full h-1 w-1 bg-gray-300"></span>
+                  
+
+                </div>
+        {/* Date labels */}
+           <div className=" pt-2 flex w-full align-center items-center   justify-between">
+            
+           <p
+              className="text-sm text-[#56616B]"
+            >
+              {firstDate}
+            </p>
+            <p
+              className="text-sm text-[#56616B]"
+            >
+              {lastDate}
+            </p>
+           </div>
       </div>
     </div>
   )

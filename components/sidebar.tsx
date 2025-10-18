@@ -1,13 +1,13 @@
 "use client"
 
-import { MessageCircle, Folder, Archive, FileText } from "lucide-react"
+import Image from "next/image"
 
 export function Sidebar() {
   const sidebarItems = [
-    { icon: MessageCircle, label: "Messages" },
-    { icon: Folder, label: "Folder" },
-    { icon: Archive, label: "Archive" },
-    { icon: FileText, label: "Documents" },
+    { icon: <Image alt="Messages" src="side-icon-1.svg" width={40} height={40}/>, label: "Messages" },
+    { icon: <Image alt="Folder"   src="side-icon-2.svg" width={40} height={40}/>, label: "Folder" },
+    { icon:  <Image alt="Archive" src="side-icon-3.svg" width={40} height={40}/>, label: "Archive" },
+    { icon:  <Image alt="Documents" src="side-icon-4.svg" width={40} height={40}/>, label: "Documents" },
   ]
 
   return (
@@ -18,10 +18,12 @@ export function Sidebar() {
           return (
             <button
               key={item.label}
-              className="w-6 h-6 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors"
+              className="w-6 h-6 flex items-center justify-center transition-all duration-200 group"
               title={item.label}
             >
-              <Icon className="w-5 h-5" />
+              <div className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 filter grayscale hover:grayscale-0 hover:scale-110">
+                {Icon}
+              </div>
             </button>
           )
         })}

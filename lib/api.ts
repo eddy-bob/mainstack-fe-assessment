@@ -1,9 +1,9 @@
-import type { Transaction, FinancialMetrics, ChartDataPoint } from "@/types"
+import type { Transaction, FinancialMetrics, ChartDataPoint } from "@/types";
 
 // Mock API functions - replace with real API calls when ready
 export async function fetchFinancialMetrics(): Promise<FinancialMetrics> {
   // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500))
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   return {
     availableBalance: 120500.0,
@@ -11,32 +11,32 @@ export async function fetchFinancialMetrics(): Promise<FinancialMetrics> {
     totalPayout: 55080.0,
     totalRevenue: 175580.0,
     pendingPayout: 0.0,
-  }
+  };
 }
 
 export async function fetchChartData(): Promise<ChartDataPoint[]> {
-  await new Promise((resolve) => setTimeout(resolve, 500))
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   // Generate smooth wave data
-  const data: ChartDataPoint[] = []
-  const startDate = new Date("2022-04-01")
+  const data: ChartDataPoint[] = [];
+  const startDate = new Date("2022-04-01");
 
   for (let i = 0; i < 30; i++) {
-    const date = new Date(startDate)
-    date.setDate(date.getDate() + i)
-    const value = 80000 + Math.sin(i / 5) * 30000 + Math.random() * 10000
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + i);
+    const value = 80000 + Math.sin(i / 5) * 30000 + Math.random() * 10000;
 
     data.push({
       date: date.toISOString().split("T")[0],
       value: Math.round(value),
-    })
+    });
   }
 
-  return data
+  return data;
 }
 
 export async function fetchTransactions(): Promise<Transaction[]> {
-  await new Promise((resolve) => setTimeout(resolve, 500))
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   return [
     {
@@ -63,5 +63,5 @@ export async function fetchTransactions(): Promise<Transaction[]> {
       date: "2022-04-02",
       status: "completed",
     },
-  ]
+  ];
 }
