@@ -10,10 +10,11 @@ interface FilterPanelProps {
   isOpen: boolean
   onClose: () => void
   setSelectedFilter: Dispatch<SetStateAction<string[]>>
-  selectedFilter:string[]
+  selectedFilter: string[]
+  onDateRangeChange?: (startDate: string, endDate: string) => void
 }
 
-export function FilterPanel({ isOpen, onClose, setSelectedFilter, selectedFilter }: FilterPanelProps) {
+export function FilterPanel({ isOpen, onClose, setSelectedFilter, selectedFilter, onDateRangeChange }: FilterPanelProps) {
   const [selectedPeriod, setSelectedPeriod] = useState("Last 7 days")
   const [selectedTypes, setSelectedTypes] = useState<string[]>([
    
@@ -45,6 +46,13 @@ export function FilterPanel({ isOpen, onClose, setSelectedFilter, selectedFilter
   const toggleTransactionStatus = (status: string) => {
     setSelectedStatus((prev) => (prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]))
     setSelectedFilter((prev) => (prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]))
+  }
+
+  const handleApply = () => {
+    if (onDateRangeChange) {
+      onDateRangeChange(startDate, endDate)
+    }
+    onClose()
   }
 
   const formatDate = (dateString: string) => {
@@ -107,7 +115,10 @@ export function FilterPanel({ isOpen, onClose, setSelectedFilter, selectedFilter
               <div className="flex gap-3">
                 <div className="flex-1 relative">
                   <button
-                    onClick={() => setShowStartCalendar(!showStartCalendar)}
+                    onClick={() => {
+                      setShowStartCalendar(!showStartCalendar)
+                      setShowEndCalendar(false) // Close end calendar when opening start
+                    }}
                     className="w-full px-3 py-3 text-sm  bg-[#eff1f6]  hover:bg-white hover:text-foreground  hover:border rounded-lg   flex items-center justify-between"
                   >
                     <span>{formatDate(startDate)}</span>
@@ -127,7 +138,10 @@ export function FilterPanel({ isOpen, onClose, setSelectedFilter, selectedFilter
                 </div>
                 <div className="flex-1 relative">
                   <button
-                    onClick={() => setShowEndCalendar(!showEndCalendar)}
+                    onClick={() => {
+                      setShowEndCalendar(!showEndCalendar)
+                      setShowStartCalendar(false) // Close start calendar when opening end
+                    }}
                     className="w-full px-3 py-3 text-sm  rounded-lg  bg-[#eff1f6] hover:bg-white hover:text-foreground  hover:border flex items-center justify-between"
                   >
                     <span>{formatDate(endDate)}</span>
@@ -220,7 +234,7 @@ export function FilterPanel({ isOpen, onClose, setSelectedFilter, selectedFilter
             <Button variant="outline" className="flex-1 rounded-full bg-transparent" onClick={()=>{setSelectedFilter([]);setSelectedStatus([]);setSelectedTypes([]); setStartDate("2023-07-27"); setEndDate("2023-08-17"); setSelectedPeriod("Last 7 days"); setShowStartCalendar(false); setShowEndCalendar(false); setShowStatusDropdown(false); setShowTypeDropdown(false); onClose()}}>
               Clear
             </Button>
-            <Button className={`flex-1 rounded-full ${selectedFilter.length > 0 || selectedStatus.length > 0 || selectedTypes.length > 0 ? "bg-primary text-primary-foreground" : "opacity-20"}`}  onClick={onClose}>
+            <Button className={`flex-1 rounded-full ${selectedFilter.length > 0 || selectedStatus.length > 0 || selectedTypes.length > 0 || startDate !== "2023-07-27" || endDate !== "2023-08-17" ? "bg-primary text-primary-foreground" : "opacity-20"}`}  onClick={handleApply}>
               Apply
             </Button>
           </div>

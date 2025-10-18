@@ -13,6 +13,7 @@ interface CalendarProps {
 
 export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
+  const [showYearSelector, setShowYearSelector] = useState(false)
   const calendarRef = useRef<HTMLDivElement>(null)
 
   // Handle click outside to close
@@ -32,6 +33,13 @@ export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: Calend
     }
   }, [isOpen, onClose])
 
+  // Close year selector when calendar closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowYearSelector(false)
+    }
+  }, [isOpen])
+
   const selectedDateObj = new Date(selectedDate)
   
   const getDaysInMonth = (date: Date) => {
@@ -50,21 +58,46 @@ export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: Calend
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))
   }
 
+  const handleYearSelect = (year: number) => {
+    setCurrentDate(new Date(year, currentDate.getMonth(), 1))
+    setShowYearSelector(false)
+  }
+
+  const getYearRange = () => {
+    const currentYear = new Date().getFullYear()
+    const selectedYear = new Date(selectedDate).getFullYear()
+    const years = []
+    
+    // Start from the earlier of 2015, selected year, or current year - 10
+    const startYear = Math.min(2015, selectedYear, currentYear - 10)
+    // End at the later of current year + 5 or selected year + 5
+    const endYear = Math.max(currentYear + 5, selectedYear + 5)
+    
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year)
+    }
+    return years
+  }
+
   const formatMonthYear = (date: Date) => {
     return date.toLocaleDateString("en-US", { month: "long", year: "numeric" })
   }
 
   const isSelectedDate = (day: number) => {
+    // Parse the selected date string to avoid timezone issues
+    const [selectedYear, selectedMonth, selectedDay] = selectedDate.split('-').map(Number)
     return (
-      selectedDateObj.getDate() === day &&
-      selectedDateObj.getMonth() === currentDate.getMonth() &&
-      selectedDateObj.getFullYear() === currentDate.getFullYear()
+      selectedDay === day &&
+      selectedMonth - 1 === currentDate.getMonth() && // Month is 0-indexed in Date objects
+      selectedYear === currentDate.getFullYear()
     )
   }
 
   const handleDateClick = (day: number) => {
-    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-    const formattedDate = newDate.toISOString().split('T')[0]
+    const year = currentDate.getFullYear()
+    const month = currentDate.getMonth()
+    // Create date in local timezone and format as YYYY-MM-DD
+    const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     onDateSelect(formattedDate)
     onClose()
   }
@@ -99,9 +132,17 @@ export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: Calend
           <ChevronLeft className="w-4 h-4" />
         </button>
         
-        <h3 className="text-sm font-medium">
-          {formatMonthYear(currentDate)}
-        </h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-medium">
+            {currentDate.toLocaleDateString("en-US", { month: "long" })}
+          </h3>
+          <button
+            onClick={() => setShowYearSelector(!showYearSelector)}
+            className="px-2 py-1 text-sm font-medium hover:bg-gray-100 rounded transition-colors"
+          >
+            {currentDate.getFullYear()}
+          </button>
+        </div>
         
         <button
           onClick={getNextMonth}
@@ -110,6 +151,27 @@ export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: Calend
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
+
+      {/* Year Selector */}
+      {showYearSelector && (
+        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+          <div className="grid grid-cols-4 gap-2 max-h-32 overflow-y-auto">
+            {getYearRange().map((year) => (
+              <button
+                key={year}
+                onClick={() => handleYearSelect(year)}
+                className={`px-2 py-1 text-xs rounded transition-colors ${
+                  year === currentDate.getFullYear()
+                    ? "bg-black text-white"
+                    : "hover:bg-gray-200 text-gray-700"
+                }`}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Days of Week Header */}
       <div className="grid grid-cols-7 gap-1 mb-2">

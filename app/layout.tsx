@@ -13,7 +13,6 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Mainstack Dashboard",
   description: "Mainstack assessment",
-  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -28,7 +27,7 @@ export default function RootLayout({
           <Sidebar />
           <div className="flex flex-col ml-2">
             <Header />
-           <div className="px-18"> {children}</div>
+           <div className="sm:px-18 px-5"> {children}</div>
           </div>
         </QueryProvider>
         <Analytics />

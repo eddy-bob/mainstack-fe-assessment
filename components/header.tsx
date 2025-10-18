@@ -1,14 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Bell, Menu, Grid3x3, Home, BarChart3, TrendingUp, Users, Zap, ChevronDown } from "lucide-react"
+import { Bell,  ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { HamburgerMenu } from "./hamburger-menu"
 import { AppsModal } from "./apps-modal"
 import Image from "next/image"
+import { getUserDisplayName } from "@/lib/api"
+import { useUser } from "@/lib/hooks"
+import { User } from "@/types"
 
 interface HeaderProps {
   onAppsClick?: () => void
@@ -19,7 +21,7 @@ export function Header({ onAppsClick }: HeaderProps) {
   const [isAppsActive, setIsAppsActive] = useState(false)
   const [isAppsModalOpen, setIsAppsModalOpen] = useState(false)
   const pathname = usePathname()
-
+  const { data: user, isLoading, isError, error } = useUser();
   const navItems = [
     { label: "Home", href: "/", icon: <Image src="/header-icon-0.svg" alt="Home" width={20} height={20} /> },
     { label: "Analytics", href: "/analytics", icon: <Image src="/header-icon-1.svg" alt="Analytics" width={20} height={20} /> },
@@ -27,7 +29,15 @@ export function Header({ onAppsClick }: HeaderProps) {
     { label: "CRM", href: "/crm", icon: <Image src="/header-icon-3.svg" alt="CRM" width={20} height={20} /> },
   ]
 
-  return (
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error: {error?.message}</div>
+  }
+
+    return (
     <>
      <div className="bg-white sticky top-0 z-40  pt-3 mx-2">
       <header className=" bg-white rounded-[40px] shadow-md sticky top-3  ">
@@ -124,7 +134,10 @@ export function Header({ onAppsClick }: HeaderProps) {
               <Image src="/chat.svg" alt="Profile" width={42} height={42} />
             </Button>
               <div className="flex items-center gap-1 bg-[#EFF1F6]  px-1  rounded-full">
-            <span className="text-xs font-medium text-white bg-[#111111] opacity-80 rounded-[100%] p-2">OJ</span>
+                <span className="text-xs font-medium text-white bg-[#111111] opacity-80 rounded-[100%] p-2">
+                  {getUserDisplayName(user as User).split(" ")[0].charAt(0).toUpperCase()}
+                  {getUserDisplayName(user as User).split(" ")[1].charAt(0).toUpperCase()}
+            </span>
             <Button
               variant="ghost"
               size="icon"

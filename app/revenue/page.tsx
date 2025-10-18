@@ -1,21 +1,63 @@
 "use client"
 
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
-import { fetchFinancialMetrics } from "@/lib/api"
+import { useRevenueData } from "@/lib/hooks"
 import { RevenueChart } from "@/components/revenue-chart"
 import { TransactionList } from "@/components/transaction-list"
 import { AppsMenu } from "@/components/apps-menu"
 import { MetricCard } from "@/components/metric-card"
 import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription } from "../../components/ui/alert"
+import { AlertCircle, RefreshCw } from "lucide-react"
 
 export default function RevenuePage() {
   const [isAppsOpen, setIsAppsOpen] = useState(false)
 
-  const { data: metrics } = useQuery({
-    queryKey: ["financialMetrics"],
-    queryFn: fetchFinancialMetrics,
-  })
+  const { 
+    user, 
+    wallet, 
+    transactions, 
+    chartData, 
+    isLoading, 
+    isError, 
+    error 
+  } = useRevenueData()
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background pt-6 sm:pt-8 lg:pt-10">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-4 sm:py-6 lg:py-8">
+          <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+            <div className="flex items-center justify-center py-12">
+              <div className="flex items-center gap-3">
+                <RefreshCw className="w-5 h-5 animate-spin text-primary" />
+                <span className="text-muted-foreground">Loading revenue data...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-background pt-6 sm:pt-8 lg:pt-10">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-4 sm:py-6 lg:py-8">
+          <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Failed to load revenue data. {error?.message || "Please try again later."}
+              </AlertDescription>
+            </Alert>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background pt-6 sm:pt-8 lg:pt-10">
@@ -31,7 +73,7 @@ export default function RevenuePage() {
                   <div className="text-xs sm:text-sm text-gray-600 mb-1">Available Balance</div>
                   <div className="text-2xl sm:text-3xl font-bold">
                     USD{" "}
-                    {metrics?.availableBalance?.toLocaleString("en-US", {
+                    {wallet.data?.balance?.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     }) ?? "0.00"}
@@ -45,16 +87,15 @@ export default function RevenuePage() {
               {/* Chart */}
               <div className="w-full">
                 <RevenueChart />
-             
-            </div>
+              </div>
             </div>
 
             {/* Right - Metrics */}
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:h-full lg:justify-between lg:flex lg:flex-col">
-              <MetricCard label="Ledger Balance" value={metrics?.ledgerBalance ?? 0} />
-              <MetricCard label="Total Payout" value={metrics?.totalPayout ?? 0} />
-              <MetricCard label="Total Revenue" value={metrics?.totalRevenue ?? 0} />
-              <MetricCard label="Pending Payout" value={metrics?.pendingPayout ?? 0} />
+            <div className="grid grid-cols-2 sm:mt-0 mt-10 lg:grid-cols-1 gap-4 lg:gap-0 lg:h-full lg:justify-between lg:flex lg:flex-col">
+              <MetricCard label="Ledger Balance" value={wallet.data?.ledger_balance ?? 0} />
+              <MetricCard label="Total Payout" value={wallet.data?.total_payout ?? 0} />
+              <MetricCard label="Total Revenue" value={wallet.data?.total_revenue ?? 0} />
+              <MetricCard label="Pending Payout" value={wallet.data?.pending_payout ?? 0} />
             </div>
           </div>
 
