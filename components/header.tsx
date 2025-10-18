@@ -29,13 +29,9 @@ export function Header({ onAppsClick }: HeaderProps) {
     { label: "CRM", href: "/crm", icon: <Image src="/header-icon-3.svg" alt="CRM" width={20} height={20} /> },
   ]
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+ 
 
-  if (isError) {
-    return <div>Error: {error?.message}</div>
-  }
+
 
     return (
     <>
