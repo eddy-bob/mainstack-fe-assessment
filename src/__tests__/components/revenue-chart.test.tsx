@@ -35,7 +35,7 @@ describe('RevenueChart Component', () => {
   })
 
   it('should show loading state', () => {
-    mockFetchChartData.mockImplementation(() => new Promise(() => {})) // Never resolves
+    mockFetchChartData.mockImplementation(() => new Promise(() => {})) 
 
     renderWithQueryClient(<RevenueChart />)
 
