@@ -1,7 +1,6 @@
 "use client"
 
-import { X, Settings, FileText, Users, Bug, LogOut, RefreshCw } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Settings, FileText, Users, Bug, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useUser } from "@/lib/hooks"
 import { getUserDisplayName } from "@/lib/api"

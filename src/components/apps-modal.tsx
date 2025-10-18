@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { ChevronRight, Info } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 
 interface AppsModalProps {
   isOpen: boolean

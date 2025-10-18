@@ -40,7 +40,6 @@ export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: Calend
     }
   }, [isOpen])
 
-  const selectedDateObj = new Date(selectedDate)
   
   const getDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -79,9 +78,6 @@ export function Calendar({ selectedDate, onDateSelect, onClose, isOpen }: Calend
     return years
   }
 
-  const formatMonthYear = (date: Date) => {
-    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" })
-  }
 
   const isSelectedDate = (day: number) => {
     // Parse the selected date string to avoid timezone issues

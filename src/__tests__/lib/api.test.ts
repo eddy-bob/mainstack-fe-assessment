@@ -4,7 +4,6 @@ import {
   formatTransactionType,
   getTransactionStatusColor,
 } from "@/lib/api";
-import { Transaction } from "@/types";
 
 // Mock the fetchTransactions function
 jest.mock("@/lib/api", () => {
